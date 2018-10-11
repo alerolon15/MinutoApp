@@ -30,7 +30,10 @@ router.post('/Busqueda', async (req, res) => {
     req.session.user.iniciales = setIniciales(req.session.user.nombre, req.session.user.apellido);
     let anio = req.body.anio;
     let mes = req.body.mes;
-    const facturas = await Facturas.find({"fecha": {"$gte": new Date(anio, mes-1), "$lt": new Date(anio, mes+1)}});
+    let desde = mes - 1;
+    let hasta = desde + 1;
+
+    const facturas = await Facturas.find({"fecha": {"$gte": new Date(anio, desde), "$lt": new Date(anio, hasta)}});
 
     res.render('Facturas/tabla', { usuario: req.session.user, facturas:facturas, helpers: {
             date: function (fechaDB)
