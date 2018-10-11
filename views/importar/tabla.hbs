@@ -1,0 +1,91 @@
+{{> header}}
+<link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+<div class="container" style="margin-top:15px;">
+
+  <h3>Datos del Excel</h3>
+  <hr>
+  <a onclick="ProcesarArchivo('cargarClientes')"><button  class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver detalles">Cargar Clientes</button></a>
+  <a onclick="ProcesarArchivo('cargarFacturas')"><button  class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver detalles">Cargar Facturas</button></a>
+<hr>
+<div id="alertaAjax"></div>
+<div class="row" style="margin-bottom:0px;">
+  <div id="loading" class="col s4 offset-s4">
+    <img style="margin: 0;" src="/images/Double Ring.gif" />
+    <h5 style="margin-left: 10px; position:relative; bottom:115px;">Cargando</h5>
+    <p style="position:relative; bottom:56px;" id="CargadosCantidad"></p>
+  </div>
+
+</div>
+<table id="tablaSolicitudes" class="display" style="width:100%">
+  <thead>
+      <tr>
+          <th>Fecha</th>
+          <th>Factura</th>
+          <th>Nombre</th>
+          <th>CUIT</th>
+          <th>Importe</th>
+          <th>AliCuota</th>
+          <th>Percepcion</th>
+      </tr>
+  </thead>
+  <tbody>
+    {{#each datos}}
+      <tr>
+          <td>{{this.Fecha}}</td>
+          <td>{{this.Factura}}</td>
+          <td>{{this.Nombre}}</td>
+          <td>{{this.CUIT}}</td>
+          <td>{{this.Importe}}</td>
+          <td>{{this.AliCuota}}</td>
+          <td>{{this.Percepcion}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+      <tr>
+        <th>Fecha</th>
+        <th>Factura</th>
+        <th>Nombre</th>
+        <th>CUIT</th>
+        <th>Importe</th>
+        <th>AliCuota</th>
+        <th>Percepcion</th>
+      </tr>
+  </tfoot>
+</table>
+
+</div>
+<!-- /.container -->
+<script type="text/javascript">
+  function ProcesarArchivo(proceso) {
+    var direccion = "/importar/" + proceso;
+    var urlString = '{{url}}';
+    $.ajax(
+      {
+        url: direccion,
+        type: 'POST',
+        data: {url:urlString},
+        dataType: 'json',
+        success: function(result){
+          if(result) {
+            if (result.result == 'ok' && proceso == 'cargarClientes') {
+              $('#alertaAjax')[0].innerHTML = "<div class='alert alert-success' role='alert'>" + result.message + "</div>" +
+                                              "<div class='alert alert-success' role='alert'>Clientes Cargados: " + result.clientesCargados + "</div>" +
+                                              "<div class='alert alert-success' role='alert'>Clientes Existentes: " + result.clientesExistentes + "</div>";
+            }
+            if (result.result == 'ok' && proceso == 'cargarFacturas') {
+              $('#alertaAjax')[0].innerHTML = "<div class='alert alert-success' role='alert'>" + result.message + "</div>" +
+                                              "<div class='alert alert-success' role='alert'>Facturas Cargadas: " + result.facturasCargadas + "</div>" +
+                                              "<div class='alert alert-success' role='alert'>Facturas Existentes: " + result.facturasExistentes + "</div>";
+            }
+            //console.log(result);
+          };
+        },
+        error: function(err) {
+          console.log(err)
+          $('#alertaAjax')[0].innerHTML = "<div class='alert alert-danger' role='alert'>" + 'Algo salió mal! vuelve a intentarlo!' + "</div>"
+        }
+    });
+  };
+</script>

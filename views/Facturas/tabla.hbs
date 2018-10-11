@@ -1,0 +1,49 @@
+{{> header}}
+<link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+<div class="container" style="margin-top:15px;">
+  <h3>Facturas</h3>
+  <hr>
+<table id="tablaSolicitudes" class="display" style="width:100%">
+  <thead>
+      <tr>
+          <th>Fecha</th>
+          <th>Nro Factura</th>
+          <th>Cliente</th>
+          <th>Tipo</th>
+          <th>Suc.</th>
+          <th>Base</th>
+          <th>AliCuota</th>
+          <th>Percepcion</th>
+      </tr>
+  </thead>
+  <tbody>
+    {{#each facturas}}
+      <tr>
+          <td>{{ date this.fecha }}</td>
+          <td>{{this.nroFactura}}</td>
+          <td>{{this.cliente}}</td>
+          <td>{{this.tipo}}</td>
+          <td>{{this.nroSucursal}}</td>
+          <td>{{this.base}}</td>
+          <td>{{this.alicuota}}</td>
+          <td>{{this.percepcion}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+      <tr>
+        <th>Fecha</th>
+        <th>Nro Factura</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Suc.</th>
+        <th>Base</th>
+        <th>AliCuota</th>
+        <th>Percepcion</th>
+      </tr>
+  </tfoot>
+</table>
+
+</div>
+<!-- /.container -->

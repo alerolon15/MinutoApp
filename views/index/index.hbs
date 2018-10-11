@@ -1,0 +1,59 @@
+{{> header}}
+<link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+<div class="container" style="margin-top:15px;">
+  <img src="/images/logos/Color.png" class="img-responsive" alt="Minuto" style="margin: 0 auto;">
+  <hr>
+  <h3>Tablero de control</h3>
+  <hr>
+  <div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file-alt fa-3x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div>Facturas Cargadas:</div>
+                        <div class="huge"><strong>{{facturas}}</strong></div>
+                    </div>
+                </div>
+            </div>
+            <a href="/Facturas">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Facturas Cargadas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-3x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div>Clientes Cargados:</div>
+                        <div class="huge"><strong>{{clientes}}</strong></div>
+                    </div>
+                </div>
+            </div>
+            <a href="/Clientes">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Lista de clientes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+  </div>
+  <hr>
+</div>
+<!-- /.container -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
