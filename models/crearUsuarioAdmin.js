@@ -10,8 +10,8 @@ let urlImagen = "/images/logos/Profile.png";
 let email = "admin@admin.com";
 let password = "admin++";
 let esAdmin = true;
-let BackOfficePhronencial = true;
-let BackOfficeComercializador = true;
+let BackOfficeFacturas = true;
+let BackOfficeClientes = true;
 
 let data = {
   nombre,
@@ -20,8 +20,8 @@ let data = {
   email,
   password,
   esAdmin,
-  BackOfficePhronencial,
-  BackOfficeComercializador
+  BackOfficeFacturas,
+  BackOfficeClientes
 };
 
 const userAdmin = new User(data);

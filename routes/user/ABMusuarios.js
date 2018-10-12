@@ -45,10 +45,10 @@ router.post('/Activar', function(req, res, next) {
       user.esAdmin = activar;
     }
     if (tipo == "P") {
-      user.BackOfficePhronencial = activar;
+      user.BackOfficeFacturas = activar;
     }
     if (tipo == "C") {
-      user.BackOfficeComercializador = activar;
+      user.BackOfficeClientes = activar;
     }
     user.save(function(error){
       if(error){

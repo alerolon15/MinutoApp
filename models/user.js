@@ -8,8 +8,8 @@ var userSchema = new Schema({
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   esAdmin: {type: Boolean, default: false},
-  BackOfficePhronencial: {type: Boolean, default: false},
-  BackOfficeComercializador: {type: Boolean, default: false}
+  BackOfficeFacturas: {type: Boolean, default: false},
+  BackOfficeClientes: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('User', userSchema);

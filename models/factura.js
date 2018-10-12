@@ -9,7 +9,7 @@ var facturaSchema = new Schema({
   base: {type: String},
   alicuota: {type: String},
   percepcion: {type: String},
-  cliente: { type: String, ref: 'cliente' }
+  cliente: { type: String, ref: 'Cliente' }
 });
 
 module.exports = mongoose.model('Factura', facturaSchema);
