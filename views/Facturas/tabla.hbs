@@ -15,7 +15,7 @@
           <th>Base</th>
           <th>AliCuota</th>
           <th>Percepcion</th>
-          <th>Boton</th>
+          <th>Acciones</th>
       </tr>
   </thead>
   <tbody>
@@ -29,8 +29,12 @@
           <td>{{this.base}}</td>
           <td>{{this.alicuota}}</td>
           <td>{{this.percepcion}}</td>
-          <td><button type="button" class="btn btn-success">Editar</button></td>
+          <td> <button onclick="return confirm('borrar')" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Borrar"><span class="glyphicon glyphicon-remove"></span></button>
+             <button onclick="return confirm('Ver cliente')" class="btn btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Ver cliente"><span class="glyphicon glyphicon-search"></span></button>
+             <button onclick="return confirm('Editar')" class="btn btn-succes" type="submit" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></button>
+
       </tr>
+
     {{/each}}
   </tbody>
   <tfoot>
@@ -43,7 +47,7 @@
         <th>Base</th>
         <th>AliCuota</th>
         <th>Percepcion</th>
-        <th>Boton</th>
+        <th>Acciones</th>
       </tr>
   </tfoot>
 </table>
