@@ -24,7 +24,7 @@ router.post('/login',function(req,res){
 			req.session.reset();
 			let options = {
         layout:'layoutLogin',
-				title: 'Minuto',
+				title: 'Pinturerias Minuto',
         bgClass:'bg-dark',
         error: "<div class='alert alert-danger' role='alert'>El usuario o la contraseña no son correctas</div>"
 			}

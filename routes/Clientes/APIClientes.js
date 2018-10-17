@@ -44,6 +44,14 @@ router.post('/', async(req, res, next) => {
       consulta.numeroIIBB = data.cliente.isibLocal;
       consulta.posicionIVA = data.cliente.tipoSituacionIva.codigo;
     }
+    if (data.cliente.sitIb == 5) {
+      consulta.numeroIIBB = cuit;
+      consulta.posicionIVA = data.cliente.tipoSituacionIva.codigo;
+    }
+    if (data.cliente.sitIb == 4) {
+          consulta.numeroIIBB = "00000000000";
+          consulta.posicionIVA = "3";
+        }
     if (data.cliente.sitIb != 1 && data.cliente.sitIb != 2) {
       if (typeof data.cliente.tipoSituacionIva !== 'undefined' && data.cliente.tipoSituacionIva !== null) {
         consulta.posicionIVA = data.cliente.tipoSituacionIva.codigo;

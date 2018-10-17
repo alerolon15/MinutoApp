@@ -3,6 +3,7 @@ const router = express.Router();
 const Cliente = require('../../models/cliente');
 
 /* GET home page. */
+
 router.get('/', async (req, res) => {
   if(req.session && req.session.user){
     req.session.user.iniciales = setIniciales(req.session.user.nombre, req.session.user.apellido);
