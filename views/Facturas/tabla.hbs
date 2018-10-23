@@ -5,6 +5,7 @@
 <div class="container" style="margin-top:15px;">
   <h3>Facturas</h3>
   <hr>
+  <button class="btn" id="Exportar" onclick="ExportarTXT()">Exportar Archivo AGIP</button>
 <table id="tablaSolicitudes" class="display" style="width:100%">
   <thead>
       <tr>
@@ -117,6 +118,30 @@
               document.getElementById('modal-body-pre').appendChild(div);
 
               $('#exampleModalLong').modal('show')
+            }
+          };
+        },
+        error: function(excepcion){
+            alert('error');
+            console.log(excepcion);
+        }
+    });
+  }
+  function ExportarTXT() {
+    //El route de este metodo esta en /routes/Clientes/Cliente.js
+    var direccion = "/Facturas/ExportarTXT"
+    $.ajax(
+      {
+        url: direccion,
+        type: 'GET',
+        data: { mes: {{mes}}, anio:{{anio}} },
+        success: function(result){
+          if(result) {
+            // si obtengo un resultado pero trae error, lo muestro en pantalla
+            if(result.error) {
+              alert(JSON.stringify(result.error));
+            }else{
+              console.log(result);
             }
           };
         },
