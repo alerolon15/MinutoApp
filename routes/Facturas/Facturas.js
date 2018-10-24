@@ -126,3 +126,14 @@ router.get('/Busqueda', async (req, res) => {
 });
 
 module.exports = router;
+
+router.delete('/BorrarFactura', async (req,res) => {
+  let idFactura = req.body.factura;
+  console.log(idFactura);
+  Facturas.findOneAndDelete({_id: idFactura},function(err){
+    if(!err){
+      console.log('Factura eliminada con exito');
+    }
+  })
+  res.send('Algo fallo');
+});

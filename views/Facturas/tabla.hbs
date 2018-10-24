@@ -32,7 +32,7 @@
           <td>{{this.alicuota}}</td>
           <td>{{this.percepcion}}</td>
           <td>
-             <button onclick="return confirm('borrar')" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Borrar"><span class="glyphicon glyphicon-remove"></span></button>
+             <button onclick="BorrarFactura('{{this._id}}')" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Borrar"><span class="glyphicon glyphicon-remove"></span></button>
              <button onclick="VerCliente('{{this.cliente}}')" class="btn btn-info" type="submit" data-toggle="tooltip" data-placement="top" title="Ver cliente"><span class="glyphicon glyphicon-search"></span></button>
              <button onclick="return confirm('Editar')" class="btn btn-succes" type="submit" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></button>
           </td>
@@ -151,4 +151,23 @@
         }
     });
   }
+</script>
+
+<script type="text/javascript">
+function BorrarFactura(factura) {
+    var direccion = "/Facturas/BorrarFactura"
+    $.ajax(
+      {
+        url: direccion,
+        type: 'DELETE',
+        data: { factura: factura },
+        success: function(result){
+          $('#alertaAjax')[0].innerHTML = "<div class='alert alert-success' role='alert'>Factura Borrada</div>";
+          console.log("exito");
+        },
+        error: function(error){
+            alert('error');
+          }
+    });
+  };
 </script>
