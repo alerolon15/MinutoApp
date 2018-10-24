@@ -79,9 +79,9 @@ router.get('/ExportarTXT', async (req, res) => {
       //Completar cada campo del objero de factura con los datos correspondientes a la documentacion de AGIP
       let facturaObj = {
         tipoOperacion: "2",
-        codigoNorma: "",
+        codigoNorma: "29",
         fechaRetPerc: formatearFecha(Factura.fecha),
-        tipoComprobante: "",
+        tipoComprobante: "1",
         letraComprobante: Factura.tipo,
         nroComprobante: Factura.nroFactura.substr(11),
         fechaComprobante: formatearFecha(Factura.fecha),
@@ -93,12 +93,12 @@ router.get('/ExportarTXT', async (req, res) => {
         nroInscripcionIIBBRetenido: Factura.cliente.numeroIIBB,
         sitIvaRetenido: Factura.cliente.posicionIVA,
         razonSocialRetenido: Factura.cliente.razonsocial,
-        importeOtrosConceptos: "",
-        importeIva: "",
-        montoSujetoRetPerc: "",
+        importeOtrosConceptos: "0",
+        importeIva: "0",
+        montoSujetoRetPerc: (Factura.base),
         aliCuota: Factura.alicuota,
-        retPrecPracticada: "",
-        montoTotalRetPerc: ""
+        retPrecPracticada: (((Factura.alicuota)*(Factura.base))/100),
+        montoTotalRetPerc: (((Factura.alicuota)*(Factura.base))/100)
       };
 
 
