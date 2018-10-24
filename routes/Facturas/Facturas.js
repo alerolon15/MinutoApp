@@ -131,9 +131,9 @@ router.delete('/BorrarFactura', async (req,res) => {
   let idFactura = req.body.factura;
   console.log(idFactura);
   Facturas.findOneAndDelete({_id: idFactura},function(err){
-    if(!err){
-      console.log('Factura eliminada con exito');
-    }
-  })
-  res.send('Algo fallo');
+    if(err){
+      res.send({error:'true', mensaje:'Hubo un problema al intentar borrar la factura.'});
+    };
+    res.send({resultado:'ok', mensaje:'La factura ha sido eliminada con exito.'});
+  });
 });
