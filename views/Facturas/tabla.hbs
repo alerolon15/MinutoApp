@@ -5,6 +5,7 @@
 <div class="container" style="margin-top:15px;">
   <h3>Facturas</h3>
   <hr>
+  <div id="alertaAjax"></div>
   <button class="btn" id="Exportar" onclick="ExportarTXT()">Exportar Archivo AGIP</button>
 <table id="tablaSolicitudes" class="display" style="width:100%">
   <thead>
@@ -22,7 +23,7 @@
   </thead>
   <tbody>
     {{#each facturas}}
-      <tr>
+      <tr id="{{this._id}}">
           <td>{{ date this.fecha }}</td>
           <td>{{this.nroFactura}}</td>
           <td>{{this.cliente}}</td>
@@ -134,7 +135,7 @@
       {
         url: direccion,
         type: 'GET',
-        data: { mes: {{mes}}, anio:{{anio}} },
+        data: { mes: "{{mes}}", anio:"{{anio}}" },
         success: function(result){
           if(result) {
             // si obtengo un resultado pero trae error, lo muestro en pantalla
@@ -162,8 +163,12 @@ function BorrarFactura(factura) {
         type: 'DELETE',
         data: { factura: factura },
         success: function(result){
-          $('#alertaAjax')[0].innerHTML = "<div class='alert alert-success' role='alert'>Factura Borrada</div>";
-          console.log("exito");
+          if (result.error) {
+            $('#alertaAjax')[0].innerHTML = "<div class='alert alert-danger' role='alert'>" + result.mensaje + "</div>";
+          }else{
+            $('#alertaAjax')[0].innerHTML = "<div class='alert alert-success' role='alert'>" + result.mensaje + "</div>";
+            $('#' + factura).addClass('hide');
+          }
         },
         error: function(error){
             alert('error');
