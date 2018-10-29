@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Facturas = require('../../models/factura');
 const Cliente = require('../../models/cliente');
-
+const fs = require('fs');
 
 /* GET home page. */
 router.get('/', async (req, res) => {
@@ -81,7 +81,7 @@ router.get('/ExportarTXT', async (req, res) => {
         codigoNorma: "29",
         // confirmar si es la fecha correcta (la que viene en la factura o la fecha del dia de hoy ?)
         fechaRetPerc: formatearFecha(Factura.fecha),
-        tipoComprobante: "1",
+        tipoComprobante: "01",
         letraComprobante: Factura.tipo,
         nroComprobante: Factura.nroFactura.substr(11),
         fechaComprobante: formatearFecha(Factura.fecha),
@@ -97,12 +97,70 @@ router.get('/ExportarTXT', async (req, res) => {
         importeIva: "0",
         montoSujetoRetPerc: Factura.base,
         aliCuota: Factura.alicuota,
-        retPrecPracticada: parseInt(Factura.alicuota)*parseInt(Factura.base)/100,
-        montoTotalRetPerc: parseInt(Factura.alicuota)*parseInt(Factura.base)/100
+        retPrecPracticada: (parseInt(Factura.alicuota)*parseInt(Factura.base))/100,
+        montoTotalRetPerc: (parseInt(Factura.alicuota)*parseInt(Factura.base))/100
       };
+      if(Factura.nroFactura.substr(1,3) == "NCD"){
+        facturaObj.tipoComprobante = "09";
+        facturaObj.letraComprobante = " ";
+      }
 
+      // Le saco el % a la alicuota
+      facturaObj.aliCuota = facturaObj.aliCuota.replace("%", " ");
+      //corto la Razon social
+      let longitud = facturaObj.razonSocialRetenido.length;
+      if(longitud>30)
+      facturaObj.razonSocialRetenido = facturaObj.razonSocialRetenido.substring(0,30);
+      console.log(longitud);
+      //  Seccion de pading
+      facturaObj.fechaRetPerc = padIzquierda((facturaObj.fechaRetPerc),10,'0');
+      facturaObj.nroComprobante = padIzquierda(facturaObj.nroComprobante,16,'0');
+      facturaObj.fechaComprobante = padIzquierda((facturaObj.fechaComprobante),10,'0');
+      facturaObj.montoComprobante = padIzquierda(facturaObj.montoComprobante,16,'0');
+      facturaObj.nroInscripcionIIBBRetenido = padIzquierda(facturaObj.nroInscripcionIIBBRetenido,11,'0');
+      facturaObj.razonSocialRetenido = padDerecha(facturaObj.razonSocialRetenido,30,' ');
+      facturaObj.importeOtrosConceptos = padIzquierda(facturaObj.importeOtrosConceptos,16,'0');
+      facturaObj.importeIva = padIzquierda(facturaObj.importeIva,16,'0');
+      facturaObj.montoSujetoRetPerc = padIzquierda(facturaObj.montoSujetoRetPerc,16,'0');
+      facturaObj.aliCuota = padIzquierda(facturaObj.aliCuota,5,'0');
+      facturaObj.retPrecPracticada = padIzquierda(facturaObj.retPrecPracticada,16,'0');
+      facturaObj.montoTotalRetPerc = padIzquierda(facturaObj.montoTotalRetPerc,16,'0');
+
+      //   Plasma el JSON en el Vector
       facturastxt.push(facturaObj);
+
+      let linea = '';
+      linea += facturaObj.tipoOperacion;
+      linea += facturaObj.codigoNorma;
+      linea += facturaObj.fechaRetPerc;
+      linea += facturaObj.tipoComprobante;
+      linea += facturaObj.letraComprobante;
+      linea += facturaObj.nroComprobante;
+      linea += facturaObj.fechaComprobante;
+      linea += facturaObj.montoComprobante;
+      linea += facturaObj.nroCertificadoPropio;
+      linea += facturaObj.tipoDocRetenido;
+      linea += facturaObj.nroDocRetenido;
+      linea += facturaObj.sitIIBBRetenido;
+      linea += facturaObj.nroInscripcionIIBBRetenido;
+      linea += facturaObj.sitIvaRetenido;
+      linea += facturaObj.razonSocialRetenido;
+      linea += facturaObj.importeOtrosConceptos;
+      linea += facturaObj.importeIva;
+      linea += facturaObj.montoSujetoRetPerc;
+      linea += facturaObj.aliCuota;
+      linea += facturaObj.retPrecPracticada;
+      linea += facturaObj.montoTotalRetPerc;
+      linea += facturaObj.codigoNorma;
+
+
+
+      fs.appendFile('AGIP.txt', linea + "\r\n", function (err) { // buscar append sincronico
+        if (err) throw err;
+        console.log('Updated!');
+      });
     };
+
 
     console.log('ejemplo de registro : ');
     console.log(facturastxt[0]);

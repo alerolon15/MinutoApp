@@ -37,3 +37,17 @@ XLSXtoJSON = (url) => {
   });
   return datos;
 }
+
+
+//recibe 3 parametros (string a rellenar, tamaño final, valor con el que se rellena)
+padDerecha = (n, width, z) => {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
+};
+
+padIzquierda = (n, width, z) => {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
