@@ -78,7 +78,7 @@ router.get('/ExportarTXT', async (req, res) => {
     for (const Factura of facturas) {
       let facturaObj = {
         tipoOperacion: "2",
-        codigoNorma: "29",
+        codigoNorma: "029",
         // confirmar si es la fecha correcta (la que viene en la factura o la fecha del dia de hoy ?)
         fechaRetPerc: formatearFecha(Factura.fecha),
         tipoComprobante: "01",
@@ -97,16 +97,25 @@ router.get('/ExportarTXT', async (req, res) => {
         importeIva: "0",
         montoSujetoRetPerc: Factura.base,
         aliCuota: Factura.alicuota,
-        retPrecPracticada: (parseInt(Factura.alicuota)*parseInt(Factura.base))/100,
-        montoTotalRetPerc: (parseInt(Factura.alicuota)*parseInt(Factura.base))/100
+        retPrecPracticada: Factura.percepcion,
+        montoTotalRetPerc: Factura.percepcion
       };
       if(Factura.nroFactura.substr(1,3) == "NCD"){
         facturaObj.tipoComprobante = "09";
         facturaObj.letraComprobante = " ";
       }
 
-      // Le saco el % a la alicuota
-      facturaObj.aliCuota = facturaObj.aliCuota.replace("%", " ");
+      // Le saco el % a la alicuota y completo los 5 caracteres
+      facturaObj.aliCuota = facturaObj.aliCuota.substr(0,4);
+      facturaObj.aliCuota = "0" + facturaObj.aliCuota;
+      
+      // cambio puntos por comas
+      facturaObj.importeIva = facturaObj.importeIva.replace(".", ",");
+      facturaObj.montoComprobante = facturaObj.montoComprobante.replace(".", ",");
+      facturaObj.montoSujetoRetPerc = facturaObj.montoSujetoRetPerc.replace(".", ",");
+      facturaObj.retPrecPracticada = facturaObj.retPrecPracticada.replace(".", ",");
+      facturaObj.montoTotalRetPerc = facturaObj.montoTotalRetPerc.replace(".", ",");
+
       //corto la Razon social
       let longitud = facturaObj.razonSocialRetenido.length;
       if(longitud>30)
@@ -155,7 +164,7 @@ router.get('/ExportarTXT', async (req, res) => {
 
 
 
-      fs.appendFile('AGIP.txt', linea + "\r\n", function (err) { // buscar append sincronico
+      fs.appendFileSync('AGIP.txt', linea + "\r\n", function (err) { // buscar append sincronico
         if (err) throw err;
         console.log('Updated!');
       });
